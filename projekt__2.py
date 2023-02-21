@@ -13,11 +13,8 @@ import random
 #Program dále vytvoří tajné 4místné číslo (číslice musí být unikátní a nesmí začínat 0) ==== randint is an alias for randrange(start, stop+1).
 start = 1000
 stop = 9999
-#computer_number = str(random.randint(start, stop))
-#splitted_numbers = list(str(computer_number))
-#unique_numbers = list()
 
-#while True:
+
 def is_duplicate(number):
     list_of_numbers = list()
     for x in number:
