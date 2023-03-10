@@ -7,12 +7,22 @@ discord: Katerina K#9622
 
 import random
 
-#Program pozdraví užitele a vypíše úvodní text
-
-
 #Program dále vytvoří tajné 4místné číslo (číslice musí být unikátní a nesmí začínat 0) ==== randint is an alias for randrange(start, stop+1).
 start = 1000
 stop = 9999
+#computer_number = str(random.randint(start, stop))
+#splitted_numbers = list(str(computer_number))
+#unique_numbers = list()
+        
+#jedina funkce ktera mi zjisti jestli random generovane cislo od pc obsahuje duplicitni cifry        
+def is_duplicate_pc_generated(number):
+    list_of_numbers = list()
+    for x in number:
+        if x in list_of_numbers:
+            return False
+        else:
+            list_of_numbers.append(x)
+    return True
 
 
 def is_duplicate(number):
@@ -20,15 +30,6 @@ def is_duplicate(number):
     for x in number:
         if x in list_of_numbers:
             print("Number can not contain duplicated values")
-            return False
-        else:
-            list_of_numbers.append(x)
-    return True
-        
-def is_duplicate_pc_generated(number):
-    list_of_numbers = list()
-    for x in number:
-        if x in list_of_numbers:
             return False
         else:
             list_of_numbers.append(x)
@@ -65,14 +66,16 @@ def is_numeric_number(number) -> bool:
 
 #print(is_numeric_number(user_number))
 
+#fukce zjisti jestli je cislo unique = delka je 4, nema duplicitni cifry, je numeric cili obsahuje jen cisla a nezacina 0
 def is_unique_number(number):
     return correct_lenght(number) and is_duplicate(number) and is_numeric_number(number) and starts_with_zero(number)
 
 #print(is_unique_number(user_number))
 
 #uhadnout cislo 
-counter = 0
+
 bulls_final = 0
+#funkce ktera nam vrati pocet bulls a cows 
 def cows_and_bulls(number1, number2):
     bulls = 0
     cows = 0
@@ -97,8 +100,6 @@ def cows_and_bulls(number1, number2):
 
     if bulls == 1:
         result1 = str(bulls) + " bull"
-    elif bulls == 4:       
-        return "Correct, you've guessed the right number in", counter," guesses!"
     else:
         result1 = str(bulls) + " bulls"
 
@@ -106,15 +107,20 @@ def cows_and_bulls(number1, number2):
     bulls_final = bulls
     return result3
 
-computer_number = str(random.randint(start, stop))
-while True:
-    
-    if is_duplicate_pc_generated(computer_number) == True:
-        break
-    else:
-        computer_number = str(random.randint(start, stop))
-        continue
-print("PC NR: ",computer_number)
+def pc_generated_number():
+    computer_number = str(random.randint(start, stop))
+    while True:
+        if is_duplicate_pc_generated(computer_number) == True:
+            break
+        else:
+            computer_number = str(random.randint(start, stop))
+            continue
+    return computer_number
+
+pc_number = pc_generated_number()
+
+#Program pozdraví užitele a vypíše úvodní text
+#print("PC NR: ",pc_number) #na testovani generovaneho cisla, zakomentovano
 #print(is_unique_number(computer_number))
 
 print("""Hi there!
@@ -122,27 +128,36 @@ print("""Hi there!
 I've generated a random 4 digit number for you.
 Let's play a bulls and cows game.
 -----------------------------------------------""")
-user_number = input("Enter a number:")
+user_number = input("Enter a number: ")
 print("-----------------------------------------------")
 
 
+counter = 1
 answer = "y"
 while answer != "n":
-    if is_unique_number(user_number) == True:
-        counter += 1
-        print(cows_and_bulls(user_number, computer_number))
+    if user_number == pc_number:
+        print("Correct, you've guessed the right number in", counter, "guesses!")
         answer = input("Would you like another chance? [Y/N]")
         if answer.lower() == "n":
-            print("You failed, but tried ", counter, "times")
-            quit()
+            print("Thank you for playing BULLS and COWS, come again :)")
+            break
         else:
-            user_number = input("Enter a number pred continue:")
-            continue
-    elif bulls_final == 4:
-        quit()
+            pc_number = pc_generated_number()
+            #print("NOVE PC NR: ",pc_number) #na testovani generovaneho cisla, zakomentovano
+            user_number = input("Another guess: ")
+            counter = 1
+    elif is_unique_number(user_number) == True:
+       counter += 1
+       print(cows_and_bulls(user_number, pc_number))
+       user_number = input("Another guess: ")
+       continue
     else:
-        user_number = input("Enter a number nakonci:")
+        user_number = input("Enter a correct number: ")
+        continue
+    
+ 
+        
+
+
     
 
-
-   
